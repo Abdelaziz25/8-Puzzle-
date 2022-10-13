@@ -68,6 +68,8 @@ class GUI:
 
         self.changeOnHover(random)
         self.changeOnHover(input)
+        self.arr = []
+
 
 
 
@@ -143,6 +145,19 @@ class GUI:
 
     def tab1(self):
         isInput = False
+
+        def back():
+            self.mycanvas.destroy()
+            BFS.destroy()
+            DFS.destroy()
+            As.destroy()
+            backB.destroy()
+            if isInput:
+                for i in range(3):
+                    for j in range(3):
+                        self.inputEntries[i][j].destroy()
+            self.home()
+
         def search(s):
             if isInput:
                 isValid = True
@@ -175,6 +190,9 @@ class GUI:
         DFS.place(x=400, y=375)
         As = Button(self.root, text='A*', bg=self.background_color, command=lambda:search("As"), fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         As.place(x=700, y=375)
+        backB = Button(self.root, text='Back', command=back, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        backB.place(x=100, y=50)
+        self.changeOnHover(backB)
         self.changeOnHover(BFS)
         self.changeOnHover(DFS)
         self.changeOnHover(As)
