@@ -38,7 +38,7 @@ def tab1():
           """
           ##left
           for i in range(moving_period):
-              mycanvas.move(arr_squares[0][0], velocity, 0)
+              mycanvas.move(arr_squares[0][0], -velocity, 0)
               mycanvas.move(arr_numbers[0][0], -velocity, 0)
               mycanvas.update()
           ##down
@@ -48,8 +48,8 @@ def tab1():
               mycanvas.update()
           ##up
           for i in range(moving_period):
-              mycanvas.move(arr_squares[0][0], 0, velocity)
-              mycanvas.move(arr_numbers[0][0], 0, velocity)
+              mycanvas.move(arr_squares[0][0], 0, -velocity)
+              mycanvas.move(arr_numbers[0][0], 0, -velocity)
               mycanvas.update()
           """
 
