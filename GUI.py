@@ -147,7 +147,7 @@ class GUI:
             y1 = 50
 
     def tab2(self):
-        def back():
+        def home():
             self.mycanvas.destroy()
             PRev.destroy()
             Auto.destroy()
@@ -165,7 +165,7 @@ class GUI:
         Next = Button(self.root, text='Next', bg=self.background_color,
                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         Next.place(x=700, y=375)
-        backc = Button(self.root, text='Home',command=back, bg=self.background_color, fg=self.foreground_color,
+        backc = Button(self.root, text='Home',command=home, bg=self.background_color, fg=self.foreground_color,
                        height=2, width=8, font=("", 15), relief=RAISED)
         backc.place(x=100, y=50)
 
