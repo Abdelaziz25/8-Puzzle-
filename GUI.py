@@ -147,26 +147,32 @@ class GUI:
             y1 = 50
 
     def tab2(self):
+        def back():
+            self.mycanvas.destroy()
+            PRev.destroy()
+            Auto.destroy()
+            Next.destroy()
+            self.home()
+
         self.mycanvas.destroy()
         self.drawcanvas()
-        BFS = Button(self.root, text='Prev', bg=self.background_color,
+        PRev = Button(self.root, text='Prev', bg=self.background_color,
                      fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        BFS.place(x=100, y=375)
-        DFS = Button(self.root, text='Auto', bg=self.background_color,
+        PRev.place(x=100, y=375)
+        Auto = Button(self.root, text='Auto', bg=self.background_color,
                      fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        DFS.place(x=400, y=375)
-        As = Button(self.root, text='Next', bg=self.background_color,
+        Auto.place(x=400, y=375)
+        Next = Button(self.root, text='Next', bg=self.background_color,
                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        As.place(x=700, y=375)
-        backB = Button(self.root, text='Back', bg=self.background_color, fg=self.foreground_color,
+        Next.place(x=700, y=375)
+        backc = Button(self.root, text='Home',command=back, bg=self.background_color, fg=self.foreground_color,
                        height=2, width=8, font=("", 15), relief=RAISED)
-        backB.place(x=100, y=50)
+        backc.place(x=100, y=50)
 
 
 
     def tab1(self):
         isInput = False
-
         def back():
             self.mycanvas.destroy()
             BFS.destroy()
@@ -207,6 +213,10 @@ class GUI:
                       self.tab2()
                 if not isValid:
                     messagebox.showerror("Error", "Not Valid Input. Reenter the number")
+            else:
+                damage()
+                self.tab2()
+
 
 
 
