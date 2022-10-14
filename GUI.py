@@ -24,7 +24,10 @@ class GUI:
         self.root = Tk()
         self.root.minsize(height=500, width=900)
         self.root.option_add('*Font', '30')
-
+        """
+        self.counter = 1
+        self.moves_arr=[(0,0),(0,1),(1,1),(1,0),(0,0)]
+        """
     def changeOnHover(self, button):
         # adjusting backgroung of the widget
         # background on entering widget
@@ -204,5 +207,28 @@ class GUI:
             self.drawtextInput()
 
 
-
+    """
+    def move(x_new, y_new, x_old, y_old):
+        x_difference = y_new - y_old
+        y_difference = x_new - x_old
+        for i in range(moving_period):
+            mycanvas.move(arr_squares[x_old][y_old], velocity * x_difference, velocity * y_difference)
+            mycanvas.move(arr_numbers[x_old][y_old], velocity * x_difference, velocity * y_difference)
+            mycanvas.update()
+        arr_squares[x_new][y_new] = arr_squares[x_old][y_old]
+        arr_numbers[x_new][y_new] = arr_numbers[x_old][y_old]
+        arr_squares[x_old][y_old] = 0
+        arr_numbers[x_old][y_old] = 0
+    def next():
+        move(moves_arr[counter - 1][0], moves_arr[counter - 1][1],
+             moves_arr[counter][0], moves_arr[counter][1])
+        counter += 1
+    def previous():
+        move(moves_arr[counter][0], moves_arr[counter][1],
+             moves_arr[counter - 1][0], moves_arr[counter - 1][1])
+        counter -= 1
+    def auto():
+        while counter < len(moves_arr):
+            next()
+        """
 
