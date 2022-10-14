@@ -8,26 +8,32 @@ class GUI:
     def __init__(self):
         self.controller = Controller.Controller()
         self.arr = []
+        #moving
         self.arr_squares = [[], [], []]
         self.arr_numbers = [[], [], []]
-        self.background_color = "black"
-        self.foreground_color = "#0000C3"
+        #input
+        self.arr_squares2 = [[], [], []]
+        self.arr_numbers2 = [[], [], []]
+        self.background_color = "#242526"
+        self.tile_bg_color = "black"
+        self.tile_fg_color = "#0000C3"
+        self.tile_2nd_fg_color = "#EA047E"
+        self.foreground_color = "#1ab2ff"
         self.foreground_2nd_color = "#EA047E"
         self.empty_color = "grey"
         self.colorOnHover = "grey"
         self.square_stroke = 4
         self.canvas_width = 300
         self.canvas_height = 300
-        self.velocity = 0.05
+        self.velocity = 0.2
         self.square_length = 100
         self.moving_period = int((self.square_length + self.square_stroke) / self.velocity)
         self.root = Tk()
         self.root.minsize(height=500, width=900)
         self.root.option_add('*Font', '30')
-        """
         self.counter = 1
         self.moves_arr=[(0,0),(0,1),(1,1),(1,0),(0,0)]
-        """
+
     def changeOnHover(self, button):
         # adjusting backgroung of the widget
         # background on entering widget
@@ -93,21 +99,25 @@ class GUI:
                                                                         y - (self.square_length / 2) + (i * self.square_stroke),
                                                                         x + (self.square_length / 2) + (j * self.square_stroke),
                                                                         y + (self.square_length / 2) + (i * self.square_stroke),
-                                                                        outline=self.foreground_2nd_color,
-                                                                        fill=self.background_color, width=self.square_stroke))
+                                                                        outline=self.tile_2nd_fg_color,
+                                                                        fill=self.tile_bg_color, width=self.square_stroke))
                         self.arr_numbers[i].append(
                             self.mycanvas.create_text(x + (j * self.square_stroke), y + (i * self.square_stroke), text=self.arr[i][j],
-                                                 fill=self.foreground_2nd_color, font=('Helvetica 40 bold')))
+                                                 fill=self.tile_2nd_fg_color, font=('Helvetica 40 bold')))
                     else:
                         self.arr_squares[i].append(self.mycanvas.create_rectangle(x - (self.square_length / 2) + (j * self.square_stroke),
                                                                         y - (self.square_length / 2) + (i * self.square_stroke),
                                                                         x + (self.square_length / 2) + (j * self.square_stroke),
                                                                         y + (self.square_length / 2) + (i * self.square_stroke),
-                                                                        outline=self.foreground_color, fill=self.background_color,
+                                                                        outline=self.tile_fg_color, fill=self.tile_bg_color,
                                                                         width=self.square_stroke))
                         self.arr_numbers[i].append(
                             self.mycanvas.create_text(x + (j * self.square_stroke), y + (i * self.square_stroke), text=self.arr[i][j],
-                                                 fill=self.foreground_color, font=('Helvetica 40 bold')))
+                                                 fill=self.tile_fg_color, font=('Helvetica 40 bold')))
+                else:
+                    self.arr_squares[i].append(0)
+                    self.arr_numbers[i].append(0)
+
                 x1 = 50
             y1 = 50
 
@@ -124,7 +134,7 @@ class GUI:
         def search_for_index(x):
             for i in range(0, 3):
                 for j in range(0, 3):
-                    if(self.arr_numbers[i][j].get()==x):
+                    if(self.arr_numbers2[i][j].get()==x):
                         print(i)
                         print(j)
                         return i,j
@@ -141,23 +151,23 @@ class GUI:
                 i,j = search_for_index(temp)
                 self.inputEntries[i][j].configure({"background": "black"})
                 if temp2%2==1:
-                    self.mycanvas.itemconfig(self.arr_squares[i][j], outline=self.foreground_color)
+                    self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_fg_color)
             self.inputEntries.append([])
             for j in range(0, 3):
-                    self.arr_numbers[i].append(StringVar())
+                    self.arr_numbers2[i].append(StringVar())
                     self.inputEntries[i].append(Entry(self.mycanvas,width=3 , font=('Helvetica 40 bold'), justify='center',
-                                                 fg=self.foreground_color, borderwidth=0, textvariable=self.arr_numbers[i][j]))
+                                                 fg=self.tile_fg_color, borderwidth=0, textvariable=self.arr_numbers2[i][j]))
                     self.inputEntries[i][j].place(x=7+104*j, y = 10+104*i, height= 85)
 
-                    self.arr_numbers[i][j].trace("w", lambda name, index, mode, sv=self.arr_numbers[i][j]: callback(sv.get()))
+                    self.arr_numbers2[i][j].trace("w", lambda name, index, mode, sv=self.arr_numbers2[i][j]: callback(sv.get()))
 
                     x = pow(2, j) * 50 + x1 + self.square_stroke / 2
-                    self.arr_squares[i].append(self.mycanvas.create_rectangle(x - (self.square_length / 2) + (j * self.square_stroke),
+                    self.arr_squares2[i].append(self.mycanvas.create_rectangle(x - (self.square_length / 2) + (j * self.square_stroke),
                                                                         y - (self.square_length / 2) + (i * self.square_stroke),
                                                                         x + (self.square_length / 2) + (j * self.square_stroke),
                                                                         y + (self.square_length / 2) + (i * self.square_stroke),
-                                                                        outline=self.foreground_2nd_color,
-                                                                       fill=self.background_color, width=self.square_stroke))
+                                                                        outline=self.tile_2nd_fg_color,
+                                                                       fill=self.tile_bg_color, width=self.square_stroke))
                     """  
                     self.arr_numbers[i].append(
                          self.mycanvas.create_text(x + (j * self.square_stroke), y + (i * self.square_stroke), text=self.inputEntries[i][j].get(),
@@ -166,31 +176,6 @@ class GUI:
 
                     x1 = 50
             y1 = 50
-
-    def tab2(self):
-        def home():
-            self.mycanvas.destroy()
-            PRev.destroy()
-            Auto.destroy()
-            Next.destroy()
-            self.home()
-
-        self.mycanvas.destroy()
-        self.drawcanvas()
-        PRev = Button(self.root, text='Prev', bg=self.background_color,
-                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        PRev.place(x=100, y=375)
-        Auto = Button(self.root, text='Auto', bg=self.background_color,
-                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        Auto.place(x=400, y=375)
-        Next = Button(self.root, text='Next', bg=self.background_color,
-                    fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        Next.place(x=700, y=375)
-        backc = Button(self.root, text='Home',command=home, bg=self.background_color, fg=self.foreground_color,
-                       height=2, width=8, font=("", 15), relief=RAISED)
-        backc.place(x=100, y=50)
-
-
 
     def tab1(self):
         isInput = False
@@ -204,6 +189,7 @@ class GUI:
                 for i in range(3):
                     for j in range(3):
                         self.inputEntries[i][j].destroy()
+                    self.arr_numbers2[i].clear()
             self.home()
         def damage():
             BFS.destroy()
@@ -266,28 +252,64 @@ class GUI:
 
 
 
-    """
-    def move(x_new, y_new, x_old, y_old):
-        x_difference = y_new - y_old
-        y_difference = x_new - x_old
-        for i in range(moving_period):
-            mycanvas.move(arr_squares[x_old][y_old], velocity * x_difference, velocity * y_difference)
-            mycanvas.move(arr_numbers[x_old][y_old], velocity * x_difference, velocity * y_difference)
-            mycanvas.update()
-        arr_squares[x_new][y_new] = arr_squares[x_old][y_old]
-        arr_numbers[x_new][y_new] = arr_numbers[x_old][y_old]
-        arr_squares[x_old][y_old] = 0
-        arr_numbers[x_old][y_old] = 0
-    def next():
-        move(moves_arr[counter - 1][0], moves_arr[counter - 1][1],
-             moves_arr[counter][0], moves_arr[counter][1])
-        counter += 1
-    def previous():
-        move(moves_arr[counter][0], moves_arr[counter][1],
-             moves_arr[counter - 1][0], moves_arr[counter - 1][1])
-        counter -= 1
-    def auto():
-        while counter < len(moves_arr):
-            next()
-        """
+
+    def tab2(self):
+        def home():
+            self.mycanvas.destroy()
+            PRev.destroy()
+            Auto.destroy()
+            Next.destroy()
+            backc.destroy()
+            self.home()
+
+
+        def move(  x_old, y_old ,x_new, y_new):
+            print(  x_old, y_old,"to" ,x_new, y_new,)
+            x_difference = (y_new - y_old )
+            y_difference = (x_new - x_old)
+            for i in range(self.moving_period):
+                self.mycanvas.move(self.arr_squares[x_old][y_old], self.velocity * x_difference, self.velocity * y_difference)
+                self.mycanvas.move(self.arr_numbers[x_old][y_old], self.velocity * x_difference, self.velocity * y_difference)
+                self.mycanvas.update()
+            self.arr_squares[x_new][y_new] = self.arr_squares[x_old][y_old]
+            self.arr_numbers[x_new][y_new] = self.arr_numbers[x_old][y_old]
+            self.arr_squares[x_old][y_old] = 0
+            self.arr_numbers[x_old][y_old] = 0
+
+        def next():
+            if(self.counter<len(self.moves_arr)):
+                print("b5af 2nsaky")
+                move(self.moves_arr[self.counter][0], self.moves_arr[self.counter][1],
+                     self.moves_arr[self.counter - 1][0], self.moves_arr[self.counter - 1][1])
+                self.counter += 1
+
+        def previous():
+            if(self.counter>1):
+                move(self.moves_arr[self.counter - 2][0], self.moves_arr[self.counter- 2][1],
+                    self.moves_arr[self.counter -1][0], self.moves_arr[self.counter -1 ][1])
+                self.counter -= 1
+        def auto():
+            while self.counter < len(self.moves_arr):
+                next()
+
+        self.mycanvas.destroy()
+        for i in range(3):
+                self.arr_squares[i].clear()
+        self.drawcanvas()
+
+        PRev = Button(self.root, text='Prev', bg=self.background_color, command=previous,
+                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        PRev.place(x=100, y=375)
+        Auto = Button(self.root, text='Auto', bg=self.background_color, command=auto,
+                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        Auto.place(x=400, y=375)
+        Next = Button(self.root, text='Next', bg=self.background_color, command=next,
+                    fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        Next.place(x=700, y=375)
+        backc = Button(self.root, text='Home',command=home, bg=self.background_color, fg=self.foreground_color,
+                       height=2, width=8, font=("", 15), relief=RAISED)
+        backc.place(x=100, y=50)
+
+
+
 
