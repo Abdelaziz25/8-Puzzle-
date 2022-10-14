@@ -1,6 +1,6 @@
 from tkinter import *
 
-arr=[[1,0,2],[3,5,8],[4,6,7]]
+arr=[[0,6,2],[3,5,8],[4,6,7]]
 arr_squares=[[],[],[]]
 arr_numbers=[[],[],[]]
 background_color="black"
@@ -13,6 +13,8 @@ canvas_height=300
 velocity = 0.05
 square_length=100
 moving_period=int((square_length+square_stroke)/velocity)
+moves_arr = [(0,0),(0,1),(1,1),(1,0),(0,0)]
+counter = 1
 
 root = Tk()
 root.minsize(height=500,width=900)
@@ -29,29 +31,39 @@ def tab1():
   def tab2():
       mycanvas = Canvas(root, width=canvas_width+(square_stroke*3), height=canvas_height+(square_stroke*3),bd=0,highlightthickness=0, bg=empty_color)
       mycanvas.pack(pady=20)
-      def move():
-          ##right
+      global counter
+
+      def back():
+          button4.destroy()
+          mycanvas.destroy()
+          buttonmove.destroy()
+          tab1()
+
+      def move(x_new,y_new ,x_old,y_old):
+          x_difference=y_new-y_old
+          y_difference=x_new-x_old
           for i in range(moving_period):
-              mycanvas.move(arr_squares[0][0], velocity, 0)
-              mycanvas.move(arr_numbers[0][0], velocity, 0)
+              mycanvas.move(arr_squares[x_old][y_old], velocity * x_difference, velocity * y_difference)
+              mycanvas.move(arr_numbers[x_old][y_old], velocity * x_difference, velocity * y_difference)
               mycanvas.update()
-          """
-          ##left
-          for i in range(moving_period):
-              mycanvas.move(arr_squares[0][0], -velocity, 0)
-              mycanvas.move(arr_numbers[0][0], -velocity, 0)
-              mycanvas.update()
-          ##down
-          for i in range(moving_period):
-              mycanvas.move(arr_squares[0][0], 0, velocity)
-              mycanvas.move(arr_numbers[0][0], 0, velocity)
-              mycanvas.update()
-          ##up
-          for i in range(moving_period):
-              mycanvas.move(arr_squares[0][0], 0, -velocity)
-              mycanvas.move(arr_numbers[0][0], 0, -velocity)
-              mycanvas.update()
-          """
+          arr_squares[x_new][y_new] = arr_squares[x_old][y_old]
+          arr_numbers[x_new][y_new] = arr_numbers[x_old][y_old]
+          arr_squares[x_old][y_old] = 0
+          arr_numbers[x_old][y_old] = 0
+
+      def next():
+          move( moves_arr[counter - 1][0] , moves_arr[counter - 1][1],
+                moves_arr[counter][0] , moves_arr[counter][1])
+          counter += 1
+
+      def previous():
+          move( moves_arr[counter][0] , moves_arr[counter][1],
+                moves_arr[counter - 1][0] , moves_arr[counter - 1][1])
+          counter -= 1
+
+      def auto():
+          while counter < len(moves_arr):
+              next()
 
       y1=0
       for i in range (0,3):
@@ -67,24 +79,26 @@ def tab1():
                   else:
                       arr_squares[i].append(mycanvas.create_rectangle(x - (square_length/2)+(j*square_stroke) , y - (square_length/2)+(i*square_stroke) , x + (square_length/2)+(j*square_stroke) , y + (square_length/2)+(i*square_stroke) , outline=foreground_color, fill=background_color, width=square_stroke))
                       arr_numbers[i].append(mycanvas.create_text(x+(j*square_stroke) , y+(i*square_stroke) , text=arr[i][j], fill=foreground_color, font=('Helvetica 40 bold')))
+              else:
+                  arr_squares[i].append(0)
+                  arr_numbers[i].append(0)
               x1=50
           y1=50
 
-      buttonmove = Button(root, text='next', command=move, bd =4, bg=background_color, fg=foreground_color, height=2, width=8)
-      buttonmove.place(x=400, y=400)
+      buttonmove = Button(root, text='Next', command=next, bd =4, bg=background_color, fg=foreground_color, height=2, width=8)
+      buttonmove.place(x=600, y=400)
+      buttonprev = Button(root, text='Previous', command=previous, bd =4, bg=background_color, fg=foreground_color, height=2, width=8)
+      buttonprev.place(x=200, y=400)
+      buttonprev = Button(root, text='Auto', command=auto, bd =4, bg=background_color, fg=foreground_color, height=2, width=8)
+      buttonprev.place(x=400, y=400)
+      button4=Button(root, text='Back', command=back, bg=background_color, fg=foreground_color, height=2, width=8)
+      button4.place(x=100,y=80)
 
       button1.destroy()
       button2.destroy()
       button3.destroy()
       mylabel2.destroy()
-      def back():
-          button4.destroy()
-          mycanvas.destroy()
-          buttonmove.destroy()
-          tab1()
 
-      button4=Button(root, text='Back', command=back, bg=background_color, fg=foreground_color, height=2, width=8)
-      button4.place(x=100,y=300)
 
 
   button1 = Button(root, text='BFS', command=tab2, bg=background_color, fg=foreground_color, height = 2, width = 8)
