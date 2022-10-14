@@ -146,6 +146,24 @@ class GUI:
                     x1 = 50
             y1 = 50
 
+    def tab2(self):
+        self.mycanvas.destroy()
+        self.drawcanvas()
+        BFS = Button(self.root, text='Prev', bg=self.background_color,
+                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        BFS.place(x=100, y=375)
+        DFS = Button(self.root, text='Auto', bg=self.background_color,
+                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        DFS.place(x=400, y=375)
+        As = Button(self.root, text='Next', bg=self.background_color,
+                    fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        As.place(x=700, y=375)
+        backB = Button(self.root, text='Back', bg=self.background_color, fg=self.foreground_color,
+                       height=2, width=8, font=("", 15), relief=RAISED)
+        backB.place(x=100, y=50)
+
+
+
     def tab1(self):
         isInput = False
 
@@ -160,7 +178,11 @@ class GUI:
                     for j in range(3):
                         self.inputEntries[i][j].destroy()
             self.home()
-
+        def damage():
+            BFS.destroy()
+            DFS.destroy()
+            As.destroy()
+            backB.destroy()
         def search(s):
             if isInput:
                 isValid = True
@@ -176,8 +198,13 @@ class GUI:
                             break
                         else:
                             self.arr[i][j] = int(data)
+
                 if isValid:
                     isValid = self.controller.check(self.arr)
+                    print(isValid)
+                    if isValid:
+                      damage()
+                      self.tab2()
                 if not isValid:
                     messagebox.showerror("Error", "Not Valid Input. Reenter the number")
 
@@ -187,11 +214,11 @@ class GUI:
             print(s)
             print(self.arr)
 
-        BFS = Button(self.root, text='BFS', bg=self.background_color, command=lambda:search("BFS"), fg=self.foreground_color, height=2, width=8,font=("", 15), relief=RAISED)
+        BFS = Button(self.root, text='BFS', bg=self.background_color, command=lambda:[search("BFS")], fg=self.foreground_color, height=2, width=8,font=("", 15), relief=RAISED)
         BFS.place(x=100, y=375)
-        DFS = Button(self.root, text='DFS', bg=self.background_color, command=lambda:search("DFS"), fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        DFS = Button(self.root, text='DFS', bg=self.background_color, command=lambda:[search("DFS")], fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         DFS.place(x=400, y=375)
-        As = Button(self.root, text='A*', bg=self.background_color, command=lambda:search("As"), fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        As = Button(self.root, text='A*', bg=self.background_color, command=lambda:[search("As")], fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         As.place(x=700, y=375)
         backB = Button(self.root, text='Back', command=back, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         backB.place(x=100, y=50)
@@ -205,6 +232,7 @@ class GUI:
         else:
             isInput = True
             self.drawtextInput()
+
 
 
     """
