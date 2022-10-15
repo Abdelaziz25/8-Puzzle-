@@ -28,3 +28,15 @@ class Controller:
                 dp[arr[i][j]] = 1
 
         return True
+
+
+    def getpath(self, arr):
+        return [(0,0),(0,1),(1,1),(1,0),(0,0)]
+
+    def getstates(self):
+        dec = []
+        dec.append(["cost of path", 5])
+        dec.append(["nodes expanded", 12])
+        dec.append(["space depth", 100])
+        dec.append(["running time", "1000 ms"])
+        return dec

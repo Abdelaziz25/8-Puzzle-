@@ -6,8 +6,9 @@ import Controller
 class GUI:
 
     def __init__(self):
+        self.isInput = False
         self.controller = Controller.Controller()
-        self.arr = []
+        self.arr = [[0,0,0],[0,0,0],[0,0,0]]
         #moving
         self.arr_squares = [[], [], []]
         self.arr_numbers = [[], [], []]
@@ -32,7 +33,8 @@ class GUI:
         self.root.minsize(height=500, width=900)
         self.root.option_add('*Font', '30')
         self.counter = 1
-        self.moves_arr=[(0,0),(0,1),(1,1),(1,0),(0,0)]
+        self.mycanvas2 = Canvas()
+
 
     def changeOnHover(self, button):
         # adjusting backgroung of the widget
@@ -52,6 +54,7 @@ class GUI:
             description.destroy()
             random.destroy()
             input.destroy()
+            self.isInput = False
             self.tab1()
 
         def input():
@@ -60,6 +63,7 @@ class GUI:
             description.destroy()
             random.destroy()
             input.destroy()
+            self.isInput = True
             self.tab1()
 
 
@@ -77,7 +81,7 @@ class GUI:
 
         self.changeOnHover(random)
         self.changeOnHover(input)
-        self.arr = []
+        self.arr = [[0,0,0],[0,0,0],[0,0,0]]
 
 
 
@@ -123,7 +127,6 @@ class GUI:
 
 
     def drawtextInput(self):
-        self.arr = [[0,0,0],[0,0,0],[0,0,0]]
         self.mycanvas = Canvas(self.root, width=self.canvas_width + (self.square_stroke * 3), height=self.canvas_height + (self.square_stroke * 3),
                           bd=0, highlightthickness=0, bg=self.empty_color)
         self.mycanvas.pack(pady=20)
@@ -139,8 +142,6 @@ class GUI:
                         print(j)
                         return i,j
 
-        #e = Entry(self.mycanvas,width=3 , font=('Helvetica 40 bold'), justify='center',  fg=self.foreground_color, borderwidth=0)
-        #e.place(x=216, y=25)
         for i in range(0, 3):
             y = pow(2, i) * 50 + y1 + self.square_stroke / 2
             x1 = 0
@@ -152,6 +153,7 @@ class GUI:
                 self.inputEntries[i][j].configure({"background": "black"})
                 if temp2%2==1:
                     self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_fg_color)
+
             self.inputEntries.append([])
             for j in range(0, 3):
                     self.arr_numbers2[i].append(StringVar())
@@ -178,26 +180,40 @@ class GUI:
             y1 = 50
 
     def tab1(self):
-        isInput = False
         def back():
             self.mycanvas.destroy()
             BFS.destroy()
             DFS.destroy()
             As.destroy()
             backB.destroy()
-            if isInput:
+            self.arr_squares = [[], [], []]
+            self.arr_numbers = [[], [], []]
+            if self.isInput:
                 for i in range(3):
                     for j in range(3):
                         self.inputEntries[i][j].destroy()
                     self.arr_numbers2[i].clear()
+                self.inputEntries = []
             self.home()
         def damage():
             BFS.destroy()
             DFS.destroy()
             As.destroy()
             backB.destroy()
+            self.mycanvas.destroy()
+            for i in range(3):
+                self.arr_squares[i].clear()
+            """
+            if self.isInput:
+                for i in range(3):
+                    for j in range(3):
+                        self.inputEntries[i][j].destroy()
+                    self.arr_numbers2[i].clear()
+                self.inputEntries = []
+            """
+
         def search(s):
-            if isInput:
+            if self.isInput:
                 isValid = True
                 for i in range(3):
                     if isValid == False:
@@ -223,11 +239,6 @@ class GUI:
             else:
                 damage()
                 self.tab2()
-
-
-
-
-
             print(s)
             print(self.arr)
 
@@ -244,23 +255,91 @@ class GUI:
         self.changeOnHover(DFS)
         self.changeOnHover(As)
 
-        if len(self.arr) != 0 :  #random
+        if not self.isInput :  #random
             self.drawcanvas()
         else:
-            isInput = True
             self.drawtextInput()
 
 
 
 
     def tab2(self):
-        def home():
+        self.moves_arr = self.controller.getpath(self.arr)
+        self.counter = 1
+        self.drawcanvas()
+
+
+        def back():
             self.mycanvas.destroy()
+            self.arr_squares = [[], [], []]
+            self.arr_numbers = [[], [], []]
             PRev.destroy()
             Auto.destroy()
             Next.destroy()
             backc.destroy()
+            home.destroy()
+            self.mycanvas2.destroy()
+            self.tab1()
+        def gotohome():
+            self.mycanvas.destroy()
+            self.arr_squares = [[], [], []]
+            self.arr_numbers = [[], [], []]
+            PRev.destroy()
+            Auto.destroy()
+            Next.destroy()
+            backc.destroy()
+            home.destroy()
+            self.mycanvas2.destroy()
+            self.arr = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+            if self.isInput:
+                for i in range(3):
+                    for j in range(3):
+                        self.inputEntries[i][j].destroy()
+                    self.arr_numbers2[i].clear()
+                self.inputEntries = []
             self.home()
+
+
+        def buildTable():
+            states = [[]]
+            states = self.controller.getstates()
+            self.mycanvas2 = Canvas(self.root, width=250,
+                                    height=400,
+                                    bd=0, highlightthickness=0, bg=self.background_color)
+            self.mycanvas2.place(x=625, y=50)
+            self.mycanvas2.create_line(130, 0, 130, 400, fill=self.empty_color, width=3)
+            self.mycanvas2.create_line(0, 0, 0, 400, fill=self.empty_color, width=3)
+            self.mycanvas2.create_line(250, 0, 250, 400, fill=self.empty_color, width=3)
+            y1 = 0
+
+            for i in range(0, 6):  # lines
+                if (i != 0):
+                    y1 = 100 + y1
+                self.mycanvas2.create_line(0, y1, 250, y1, fill=self.empty_color, width=3)
+
+            x2 = 62.5  # text
+            y2 = 50
+            x3 = 187.5
+            for i in range(0, 4):
+                self.mycanvas2.create_text(x2, y2, text=states[i][0], fill=self.foreground_color, width=118,
+                                           font=("", 18))
+                self.mycanvas2.create_text(x3, y2, text=states[i][1], fill=self.foreground_color, font=("", 22))
+                y2 += 100
+
+        def end():
+            Auto.place_forget()
+            Next.place_forget()
+            home.place(x=400,y=375)
+            buildTable()
+            print("end")
+
+
+        def returned():
+            Auto.place(x=400, y=375)
+            Next.place(x=700, y=375)
+            home.place_forget()
+            self.mycanvas2.destroy()
+            print("returned")
 
 
         def move(  x_old, y_old ,x_new, y_new):
@@ -277,38 +356,56 @@ class GUI:
             self.arr_numbers[x_old][y_old] = 0
 
         def next():
-            if(self.counter<len(self.moves_arr)):
+            if self.counter<len(self.moves_arr):
                 print("b5af 2nsaky")
+                if self.counter==len(self.moves_arr)-1:
+                    end()
                 move(self.moves_arr[self.counter][0], self.moves_arr[self.counter][1],
                      self.moves_arr[self.counter - 1][0], self.moves_arr[self.counter - 1][1])
                 self.counter += 1
 
+                if self.counter == 2:
+                    PRev.place(x=100, y=375)
+
+
+
         def previous():
             if(self.counter>1):
+                if self.counter == len(self.moves_arr):
+                    returned()
                 move(self.moves_arr[self.counter - 2][0], self.moves_arr[self.counter- 2][1],
                     self.moves_arr[self.counter -1][0], self.moves_arr[self.counter -1 ][1])
                 self.counter -= 1
+                if self.counter == 1:
+                    PRev.place_forget()
+
+
         def auto():
             while self.counter < len(self.moves_arr):
                 next()
 
-        self.mycanvas.destroy()
-        for i in range(3):
-                self.arr_squares[i].clear()
-        self.drawcanvas()
 
         PRev = Button(self.root, text='Prev', bg=self.background_color, command=previous,
                      fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        PRev.place(x=100, y=375)
         Auto = Button(self.root, text='Auto', bg=self.background_color, command=auto,
                      fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         Auto.place(x=400, y=375)
         Next = Button(self.root, text='Next', bg=self.background_color, command=next,
                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         Next.place(x=700, y=375)
-        backc = Button(self.root, text='Home',command=home, bg=self.background_color, fg=self.foreground_color,
-                       height=2, width=8, font=("", 15), relief=RAISED)
+
+        backc = Button(self.root, text='Back',command=back, bg=self.background_color, fg=self.foreground_color,
+                      height=2, width=8, font=("", 15), relief=RAISED)
         backc.place(x=100, y=50)
+        home = Button(self.root, text='Home',command=gotohome, bg=self.background_color, fg=self.foreground_color,
+                      height=2, width=8, font=("", 18), relief=RAISED)
+        self.changeOnHover(PRev)
+        self.changeOnHover(Auto)
+        self.changeOnHover(Next)
+        self.changeOnHover(backc)
+
+
+
 
 
 
