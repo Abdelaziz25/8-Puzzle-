@@ -3,9 +3,22 @@ from Model.PuzzleBoard import PuzzleBoard
 from Services.BoardServices import BoardServices
 from Services.SearchAgent import SearchAgent
 from Services.SearchStrategy import SearchStrategy, DFSStrategy, BFSStrategy, AstarEuclidStrategy, AstarManhattanStrategy
+from Model.Answer import Answer
 
 class Controller:
 
+    __ans: Answer
+
+    def __init__(self, length=3, width=3):
+        self.__search_agent = SearchAgent()
+
+    def __set_puzzle_for_agent(self, initial_state, length, width):
+        self.__search_agent.set_board_services(length, width)
+        self.__search_agent.set_initial_puzzle(initial_state, length, width)
+
+    def __agent_solve(self, search_strategy: SearchStrategy):
+        self.__search_agent.set_search_strategy(search_strategy)
+        self.__ans = self.__search_agent.solvePuzzle()
 
     def createRandom(self):
         arr = [0,1,2,3,4,5,6,7,8]
@@ -46,15 +59,22 @@ class Controller:
         dec.append(["running time", "1000 ms"])
         return dec
 
+    #Method that solves the problem
+
+
 
 sa = SearchAgent()
 sa.set_board_services(3, 3)
-sa.set_search_strategy(AstarEuclidStrategy())
+sa.set_search_strategy(BFSStrategy())
 # sa.set_initial_puzzle([1,2,5,3,4,0,6,7,8])
 sa.set_initial_puzzle([1,4,2,6,5,8,7,3,0])
 # sa.set_initial_puzzle([3,1,2, 0, 4,5,6,7,8])
 # print([x for x in sa.solvePuzzle().steps])
+print(sa.solvePuzzle().steps)
 print(sa.solvePuzzle().puzzle_sol.get_depth())
+print(sa.solvePuzzle().found)
+
+
 
 # pb = PuzzleBoard([1,2,3,4,8,5,6,7,0])
 # ps = BoardServices()

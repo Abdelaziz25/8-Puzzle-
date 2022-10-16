@@ -35,7 +35,7 @@ class DFSStrategy(SearchStrategy):
                 found = True
                 ans_board = cur_board
                 break
-            for child in services.get_children(cur_board):
+            for child in cur_board.get_children():
                 if not tuple(child.get_state()) in explored_states:
                     fringe.add_node(child, services)
                     explored_states.add(tuple(child.get_state()))
@@ -62,28 +62,19 @@ class BFSStrategy(SearchStrategy):
             # print("**")
             cur_board: PuzzleBoard = fringe.get_node()
             nodes_expanded += 1
-            # print("**aa")
-            # print(cur_board.get_state())
-            # ff = True
-            # for i in range(9):
-            #     if cur_board.get_state()[i] != i:
-            #         ff = False
-            #         break
-            # if(ff):
-            #     print(cur_board.get_state())
-
             if services.is_goal(cur_board.get_state()):
                 # print("**ee")
                 found = True
                 ans_board = cur_board
                 break
             # print("go to loop")
-            for child in services.get_children(cur_board):
+            for child in cur_board.get_children():
                 # print(333)
                 if not tuple(child.get_state()) in explored_states:
                     fringe.add_node(child, services)
                     explored_states.add(tuple(child.get_state()))
                     max_depth = max(max_depth, child.get_depth())
+                    # print(f"search : {child.get_prev_step()}")
         ans.add_answer_attr(ans_board, found, max_depth, nodes_expanded, fringe.get_size(), fringe.get_max_size())
         # print("22")
         return ans
@@ -109,7 +100,7 @@ class AstarManhattanStrategy(SearchStrategy):
                 found = True
                 ans_board = cur_board
                 break
-            for child in services.get_children(cur_board):
+            for child in cur_board.get_children():
                 if not tuple(child.get_state()) in explored_states:
                     fringe.add_node(child, services)
                     explored_states.add(tuple(child.get_state()))
@@ -138,7 +129,7 @@ class AstarEuclidStrategy(SearchStrategy):
                 found = True
                 ans_board = cur_board
                 break
-            for child in services.get_children(cur_board):
+            for child in cur_board.get_children():
                 if not tuple(child.get_state()) in explored_states:
                     fringe.add_node(child, services)
                     explored_states.add(tuple(child.get_state()))
