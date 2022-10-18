@@ -18,6 +18,7 @@ class GUI:
         self.arr_numbers2 = [[], [], []]
         self.background_color = "#242526"
         self.tile_bg_color = "black"
+        self.tile_empty_color = "white"
         self.tile_fg_color = "#0000C3"
         self.tile_2nd_fg_color = "#EA047E"
         self.foreground_color = "#1ab2ff"
@@ -84,8 +85,6 @@ class GUI:
         self.changeOnHover(input)
         self.arr = [[0,0,0],[0,0,0],[0,0,0]]
 
-
-
     def drawcanvas(self):
         self.mycanvas = Canvas(self.root, width=self.canvas_width + (self.square_stroke * 3), height=self.canvas_height + (self.square_stroke * 3),
                           bd=0, highlightthickness=0, bg=self.empty_color)
@@ -151,7 +150,7 @@ class GUI:
                 if temp.isnumeric():
                     temp2 = int(temp)
                     if(temp2!=0):
-                        self.inputEntries[i][j].configure({"background": "black"})
+                        self.inputEntries[i][j].configure({"background": self.tile_bg_color})
                         if temp2%2==1:
                             self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_fg_color)
                             self.inputEntries[i][j].configure({"fg": self.tile_fg_color})
@@ -162,13 +161,13 @@ class GUI:
                 for i in range(0, 3):
                     for j in range(0, 3):
                         if(self.arr_numbers2[i][j].get()==""):
-                            self.inputEntries[i][j].configure({"background": "white"})
+                            self.inputEntries[i][j].configure({"background": self.tile_empty_color})
                             self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_2nd_fg_color)
             self.inputEntries.append([])
             for j in range(0, 3):
                 self.arr_numbers2[i].append(StringVar())
                 self.inputEntries[i].append(Entry(self.mycanvas,width=3 , font=('Helvetica 40 bold'), justify='center',
-                                             fg=self.tile_fg_color, borderwidth=0, textvariable=self.arr_numbers2[i][j]))
+                                             fg=self.tile_fg_color,bg=self.tile_empty_color, borderwidth=0, textvariable=self.arr_numbers2[i][j]))
                 self.inputEntries[i][j].place(x=7+104*j, y = 10+104*i, height= 85)
 
                 self.arr_numbers2[i][j].trace("w", lambda name, index, mode, sv=self.arr_numbers2[i][j]: callback(sv.get()))
@@ -186,7 +185,7 @@ class GUI:
         for i in range(0, 3):
             for j in range(0, 3):
                 if (self.arr_numbers2[i][j].get().isnumeric()):
-                    self.inputEntries[i][j].configure({"background": "black"})
+                    self.inputEntries[i][j].configure({"background": self.tile_bg_color})
                     if int(self.arr_numbers2[i][j].get()) % 2 == 1:
                         self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_fg_color)
                         self.inputEntries[i][j].configure({"fg": self.tile_fg_color})
@@ -381,7 +380,6 @@ class GUI:
 
         def next():
             if self.counter<len(self.moves_arr):
-                print("b5af 2nsaky")
                 if self.counter==len(self.moves_arr)-1:
                     end()
                 move(self.moves_arr[self.counter][0], self.moves_arr[self.counter][1],
