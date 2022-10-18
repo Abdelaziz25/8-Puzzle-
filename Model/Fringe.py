@@ -76,6 +76,7 @@ class BFSFringe(Fringe):
     def get_max_size(self):
         return self.__max_size
 
+
 class ManhattanFringe(Fringe):
 
     def __init__(self):
@@ -90,6 +91,7 @@ class ManhattanFringe(Fringe):
     def add_node(self, val: PuzzleBoard, services: BoardServices = None) -> None:
         self.__buff += 1
         heapq.heappush(self.__pq, (services.manhattan_h(val.get_state()) + 1, self.__buff, val))
+        # print(f"Man: {services.manhattan_h(val.get_state()) + 1}")
         self.__max_size = max(self.get_size(), self.__max_size)
 
     def get_size(self) -> int:
@@ -105,7 +107,7 @@ class ManhattanFringe(Fringe):
 class EuclideanFringe(Fringe):
 
     def __init__(self):
-        self.__pq: List[Tuple[int, int, PuzzleBoard]] = []
+        self.__pq: List[Tuple[float, int, PuzzleBoard]] = []
         self.__max_size = 0
         self.__buff = 0
 
@@ -115,7 +117,8 @@ class EuclideanFringe(Fringe):
 
     def add_node(self, val: PuzzleBoard, services: BoardServices = None) -> None:
         self.__buff += 1
-        heapq.heappush(self.__pq, (services.euclidean_h(val.get_state()) + 1, self.__buff, val))
+        heapq.heappush(self.__pq, (services.euclidean_h(val.get_state()) + 1.0, self.__buff, val))
+        # print(f"euc: {services.euclidean_h(val.get_state()) + 1}")
         self.__max_size = max(self.get_size(), self.__max_size)
 
     def get_size(self) -> int:

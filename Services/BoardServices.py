@@ -1,6 +1,6 @@
 import copy
+import math
 import sys
-
 sys.path.append("..")
 
 from Model.PuzzleBoard import PuzzleBoard
@@ -23,7 +23,6 @@ class BoardServices(object):
         self.__width = width
         self.__goal_state = [i for i in range(self.__length * self.__width)]
 
-
     def is_goal(self, state: List[int]):
         if self.__length * self.__width == len(state):
             # print(self.__length + self.__width)
@@ -34,7 +33,8 @@ class BoardServices(object):
         return False
 
     def manhattan_h(self, state: List[int]):
-        if self.__length + self.__width == len(state):
+        if self.__length * self.__width == len(state):
+            # print("IIIIII")
             total = 0
             for i, x in enumerate(state):
                 total += abs(i % self.__length - x % self.__length) + abs(i // self.__width - x // self.__width)
@@ -42,10 +42,10 @@ class BoardServices(object):
         return -1
 
     def euclidean_h(self, state: List[int]):
-        if self.__length + self.__width == len(state):
-            total = 0
+        if self.__length * self.__width == len(state):
+            total: float = 0.0
             for i, x in enumerate(state):
-                total += (i % self.__length - x % self.__length) ** 2 + abs(i // self.__width - x // self.__width) ** 2
+                total += math.sqrt((i % self.__length - x % self.__length) ** 2 + abs(i // self.__width - x // self.__width) ** 2)
             return total
         return -1
 
