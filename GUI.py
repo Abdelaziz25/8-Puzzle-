@@ -289,10 +289,15 @@ class GUI:
     def tab2(self):
 
         self.drawcanvas()
+        self.isAutoRunning = False
 
 
 
         def back():
+            if self.isAutoRunning:
+                self.isAutoRunning = False
+                return
+
             self.mycanvas.destroy()
             self.arr_squares = [[], [], []]
             self.arr_numbers = [[], [], []]
@@ -364,6 +369,17 @@ class GUI:
             self.mycanvas2.destroy()
             print("returned")
 
+        def disable():
+            Auto["state"] = DISABLED
+            Next["state"] = DISABLED
+            PRev["state"] = DISABLED
+            backc["state"] = DISABLED
+
+        def enable():
+            Auto["state"] = NORMAL
+            Next["state"] = NORMAL
+            PRev["state"] = NORMAL
+            backc["state"] = NORMAL
 
         def move(  x_old, y_old ,x_new, y_new):
             print(  x_old, y_old,"to" ,x_new, y_new,)
@@ -389,9 +405,22 @@ class GUI:
                 if self.counter == 2:
                     PRev.place(x=100, y=375)
 
+        def nextClick():
+            if self.isAutoRunning:
+                self.isAutoRunning = False
+                return
+            disable()
+            next()
+            enable()
 
 
         def previous():
+
+            if self.isAutoRunning:
+                self.isAutoRunning = False
+                return
+            disable()
+
             if(self.counter>1):
                 if self.counter == len(self.moves_arr):
                     returned()
@@ -400,11 +429,18 @@ class GUI:
                 self.counter -= 1
                 if self.counter == 1:
                     PRev.place_forget()
-
+            enable()
 
         def auto():
-            while self.counter < len(self.moves_arr):
+            Auto["state"] = DISABLED
+
+            self.isAutoRunning = True
+            while self.counter < len(self.moves_arr) and self.isAutoRunning:
                 next()
+            self.isAutoRunning = False
+            Auto["state"] = NORMAL
+
+
 
 
         PRev = Button(self.root, text='Prev', bg=self.background_color, command=previous,
@@ -412,7 +448,7 @@ class GUI:
         Auto = Button(self.root, text='Auto', bg=self.background_color, command=auto,
                      fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         Auto.place(x=400, y=375)
-        Next = Button(self.root, text='Next', bg=self.background_color, command=next,
+        Next = Button(self.root, text='Next', bg=self.background_color, command=nextClick,
                     fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         Next.place(x=700, y=375)
 
@@ -427,11 +463,18 @@ class GUI:
         self.changeOnHover(Next)
         self.changeOnHover(backc)
 
+        loading = Label(self.root, text='Loading....', fg=self.foreground_color, bg=self.background_color, font=("", 15))
+        loading.place(x=150 ,y=250)
+
+        self.root.update()
 
         self.controller.set_puzzle_for_agent(self.arr, 3, 3)
         self.controller.search(self.method)
         self.moves_arr = self.controller.getpath()
         self.counter = 1
+
+        loading.destroy()
+
 
 
 
