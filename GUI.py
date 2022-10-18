@@ -201,7 +201,8 @@ class GUI:
             self.mycanvas.destroy()
             BFS.destroy()
             DFS.destroy()
-            As.destroy()
+            Aman.destroy()
+            Aec.destroy()
             backB.destroy()
             self.arr_squares = [[], [], []]
             self.arr_numbers = [[], [], []]
@@ -215,7 +216,8 @@ class GUI:
         def damage():
             BFS.destroy()
             DFS.destroy()
-            As.destroy()
+            Aman.destroy()
+            Aec.destroy()
             backB.destroy()
             self.mycanvas.destroy()
             for i in range(3):
@@ -259,18 +261,23 @@ class GUI:
                 self.tab2()
 
 
-        BFS = Button(self.root, text='BFS', bg=self.background_color, command=lambda:[search("BFS")], fg=self.foreground_color, height=2, width=8,font=("", 15), relief=RAISED)
-        BFS.place(x=100, y=375)
-        DFS = Button(self.root, text='DFS', bg=self.background_color, command=lambda:[search("DFS")], fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        DFS.place(x=400, y=375)
-        As = Button(self.root, text='A*', bg=self.background_color, command=lambda:[search("As")], fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
-        As.place(x=700, y=375)
+        BFS = Button(self.root, text='BFS', bg=self.background_color, command=lambda:[search("BFS")], fg=self.foreground_color, height=2, width=12,font=("", 15), relief=RAISED)
+        BFS.place(x=25, y=375)
+        DFS = Button(self.root, text='DFS', bg=self.background_color, command=lambda:[search("DFS")], fg=self.foreground_color, height=2, width=12, font=("", 15), relief=RAISED)
+        DFS.place(x=258, y=375)
+        Aman = Button(self.root, text='A* Manhattan', bg=self.background_color, command=lambda:[search("AsMan")], fg=self.foreground_color, height=2, width=12, font=("", 15), relief=RAISED)
+        Aman.place(x=492, y=375)
+        Aec = Button(self.root, text='A* Euclidean', bg=self.background_color, command=lambda:[search("AsEc")], fg=self.foreground_color, height=2, width=12, font=("", 15), relief=RAISED)
+        Aec.place(x=725, y=375)
+
+
         backB = Button(self.root, text='Back', command=back, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         backB.place(x=100, y=50)
         self.changeOnHover(backB)
         self.changeOnHover(BFS)
         self.changeOnHover(DFS)
-        self.changeOnHover(As)
+        self.changeOnHover(Aman)
+        self.changeOnHover(Aec)
 
         if not self.isInput :  #random
             self.drawcanvas()
