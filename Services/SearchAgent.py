@@ -1,4 +1,4 @@
-import time
+import datetime
 import sys
 
 sys.path.append("..")
@@ -45,8 +45,9 @@ class SearchAgent(object):
 
 
     def solvePuzzle(self):
+        prev = datetime.datetime.now().timestamp()
         self.__answer = self.__search_strategy.search(self.__initial_puzzle, self.__board_services)
-        time = 1
+        time = (datetime.datetime.now().timestamp() - prev)*1000.0
         self.__answer.setTime(time)
 
         # print()

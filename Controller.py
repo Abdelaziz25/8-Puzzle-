@@ -113,14 +113,16 @@ class Controller:
 
         return path
 
+    def isSolved(self):
+        return self.__ans.found
     def getstates(self):
         if not self.__ans.found:
-            return [["Cost of path", "NA"],["Nodes expanded", "NA"],["Search depth", "NA"],["Running time","NA"]]
+            return [["Cost of path", 0],["Nodes expanded", self.__ans.no_nodes_exp],["Search depth", self.__ans.max_depth],["Running time",str(round(self.__ans.time))+ " ms"]]
         dec = []
         dec.append(["Cost of path", self.__ans.sol_cost])
         dec.append(["Nodes expanded", self.__ans.no_nodes_exp])
         dec.append(["Search depth", self.__ans.max_depth])
-        dec.append(["Running time",self.__ans.time])
+        dec.append(["Running time", str(round(self.__ans.time))+ " ms"])
         return dec
 
     #Method that solves the problem

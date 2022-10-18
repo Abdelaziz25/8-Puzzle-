@@ -305,6 +305,8 @@ class GUI:
             Auto.destroy()
             Next.destroy()
             backc.destroy()
+            table.destroy()
+            self.notS.destroy()
             home.destroy()
             self.mycanvas2.destroy()
             self.tab1()
@@ -317,6 +319,8 @@ class GUI:
             Next.destroy()
             backc.destroy()
             home.destroy()
+            table.destroy()
+            self.notS.destroy()
             self.mycanvas2.destroy()
             self.arr = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
             if self.isInput:
@@ -335,6 +339,18 @@ class GUI:
                                     height=400,
                                     bd=0, highlightthickness=0, bg=self.background_color)
             self.mycanvas2.place(x=625, y=50)
+            x = Button(self.mycanvas2, text='x', command=lambda:self.mycanvas2.destroy() , bg="black",
+                           fg="red")
+            x.place(x=223)
+
+            x.bind("<Enter>", func=lambda e: x.config(
+                background="red", fg="black"))
+
+            # background color on leving widget
+            x.bind("<Leave>", func=lambda e: x.config(
+                background="black",fg="red"))
+
+
             self.mycanvas2.create_line(130, 0, 130, 400, fill=self.empty_color, width=3)
             self.mycanvas2.create_line(0, 0, 0, 400, fill=self.empty_color, width=3)
             self.mycanvas2.create_line(250, 0, 250, 400, fill=self.empty_color, width=3)
@@ -360,6 +376,14 @@ class GUI:
             home.place(x=400,y=375)
             buildTable()
             print("end")
+
+        def notSolved():
+            PRev.place_forget()
+            Next.place_forget()
+            Auto.place_forget()
+            self.notS = Label(self.root, text='Can NOT be solved', fg="red", bg=self.background_color,
+                            font=("", 30))
+            self.notS.place(x=275, y=375)
 
 
         def returned():
@@ -441,6 +465,10 @@ class GUI:
             Auto["state"] = NORMAL
 
 
+        loading = Label(self.root, text='Loading....', fg=self.foreground_color, bg=self.background_color, font=("", 30))
+        loading.place(x=375 ,y=375)
+
+        self.root.update()
 
 
         PRev = Button(self.root, text='Prev', bg=self.background_color, command=previous,
@@ -457,16 +485,18 @@ class GUI:
         backc.place(x=100, y=50)
         home = Button(self.root, text='Home',command=gotohome, bg=self.background_color, fg=self.foreground_color,
                       height=2, width=8, font=("", 18), relief=RAISED)
+        table = Button(self.root, text='Table',command=buildTable, bg=self.background_color, fg=self.foreground_color,
+                      height=2, width=8, font=("", 15), relief=RAISED)
+        table.place(x=700, y=50)
+        self.notS = Label()
         self.changeOnHover(PRev)
         self.changeOnHover(home)
         self.changeOnHover(Auto)
         self.changeOnHover(Next)
         self.changeOnHover(backc)
+        self.changeOnHover(table)
 
-        loading = Label(self.root, text='Loading....', fg=self.foreground_color, bg=self.background_color, font=("", 15))
-        loading.place(x=150 ,y=250)
 
-        self.root.update()
 
         self.controller.set_puzzle_for_agent(self.arr, 3, 3)
         self.controller.search(self.method)
@@ -474,6 +504,12 @@ class GUI:
         self.counter = 1
 
         loading.destroy()
+
+        if not self.controller.isSolved():
+            notSolved()
+        elif len(self.moves_arr) ==1:
+            end()
+
 
 
 
