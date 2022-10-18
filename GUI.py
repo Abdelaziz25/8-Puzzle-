@@ -139,8 +139,6 @@ class GUI:
             for i in range(0, 3):
                 for j in range(0, 3):
                     if(self.arr_numbers2[i][j].get()==x):
-                        print(i)
-                        print(j)
                         return i,j
 
         for i in range(0, 3):
@@ -149,36 +147,54 @@ class GUI:
 
             def callback(temp):
                 print(temp)
-                temp2=int(temp)
                 i,j = search_for_index(temp)
-                self.inputEntries[i][j].configure({"background": "black"})
-                if temp2%2==1:
-                    self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_fg_color)
+                if temp.isnumeric():
+                    temp2 = int(temp)
+                    if(temp2!=0):
+                        self.inputEntries[i][j].configure({"background": "black"})
+                        if temp2%2==1:
+                            self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_fg_color)
+                            self.inputEntries[i][j].configure({"fg": self.tile_fg_color})
+                        else:
+                            self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_2nd_fg_color)
+                            self.inputEntries[i][j].configure({"fg": self.tile_2nd_fg_color})
 
+                for i in range(0, 3):
+                    for j in range(0, 3):
+                        if(self.arr_numbers2[i][j].get()==""):
+                            self.inputEntries[i][j].configure({"background": "white"})
+                            self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_2nd_fg_color)
             self.inputEntries.append([])
             for j in range(0, 3):
-                    self.arr_numbers2[i].append(StringVar())
-                    self.inputEntries[i].append(Entry(self.mycanvas,width=3 , font=('Helvetica 40 bold'), justify='center',
-                                                 fg=self.tile_fg_color, borderwidth=0, textvariable=self.arr_numbers2[i][j]))
-                    self.inputEntries[i][j].place(x=7+104*j, y = 10+104*i, height= 85)
+                self.arr_numbers2[i].append(StringVar())
+                self.inputEntries[i].append(Entry(self.mycanvas,width=3 , font=('Helvetica 40 bold'), justify='center',
+                                             fg=self.tile_fg_color, borderwidth=0, textvariable=self.arr_numbers2[i][j]))
+                self.inputEntries[i][j].place(x=7+104*j, y = 10+104*i, height= 85)
 
-                    self.arr_numbers2[i][j].trace("w", lambda name, index, mode, sv=self.arr_numbers2[i][j]: callback(sv.get()))
+                self.arr_numbers2[i][j].trace("w", lambda name, index, mode, sv=self.arr_numbers2[i][j]: callback(sv.get()))
 
-                    x = pow(2, j) * 50 + x1 + self.square_stroke / 2
-                    self.arr_squares2[i].append(self.mycanvas.create_rectangle(x - (self.square_length / 2) + (j * self.square_stroke),
-                                                                        y - (self.square_length / 2) + (i * self.square_stroke),
-                                                                        x + (self.square_length / 2) + (j * self.square_stroke),
-                                                                        y + (self.square_length / 2) + (i * self.square_stroke),
-                                                                        outline=self.tile_2nd_fg_color,
-                                                                       fill=self.tile_bg_color, width=self.square_stroke))
-                    """  
-                    self.arr_numbers[i].append(
-                         self.mycanvas.create_text(x + (j * self.square_stroke), y + (i * self.square_stroke), text=self.inputEntries[i][j].get(),
-                                fill=self.foreground_2nd_color, font=('Helvetica 40 bold')))
-                    """
-
-                    x1 = 50
+                x = pow(2, j) * 50 + x1 + self.square_stroke / 2
+                self.arr_squares2[i].append(self.mycanvas.create_rectangle(x - (self.square_length / 2) + (j * self.square_stroke),
+                                                                    y - (self.square_length / 2) + (i * self.square_stroke),
+                                                                    x + (self.square_length / 2) + (j * self.square_stroke),
+                                                                    y + (self.square_length / 2) + (i * self.square_stroke),
+                                                                    outline=self.tile_2nd_fg_color,
+                                                                   fill=self.tile_bg_color, width=self.square_stroke))
+                x1 = 50
             y1 = 50
+
+        for i in range(0, 3):
+            for j in range(0, 3):
+                if (self.arr_numbers2[i][j].get().isnumeric()):
+                    self.inputEntries[i][j].configure({"background": "black"})
+                    if int(self.arr_numbers2[i][j].get()) % 2 == 1:
+                        self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_fg_color)
+                        self.inputEntries[i][j].configure({"fg": self.tile_fg_color})
+                    else:
+                        self.mycanvas.itemconfig(self.arr_squares2[i][j], outline=self.tile_2nd_fg_color)
+                        self.inputEntries[i][j].configure({"fg": self.tile_2nd_fg_color})
+
+
 
     def tab1(self):
         def back():
