@@ -53,6 +53,7 @@ class BFSStrategy(SearchStrategy):
         explored_states = set([])
         fringe_factory = FringeFactory()
         fringe = fringe_factory.create_fringe("bfs")
+        print(f"SS** {initial_puzzle.get_depth()}")
         fringe.add_node(initial_puzzle, services)
         # print(initial_puzzle.get_state())
         explored_states.add(tuple(initial_puzzle.get_state()))
@@ -65,6 +66,7 @@ class BFSStrategy(SearchStrategy):
             if services.is_goal(cur_board.get_state()):
                 # print("**ee")
                 found = True
+                print(f"** {cur_board.get_depth()}")
                 ans_board = cur_board
                 break
             # print("go to loop")

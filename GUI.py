@@ -9,6 +9,7 @@ class GUI:
         self.isInput = False
         self.controller = Controller.Controller()
         self.arr = [[0,0,0],[0,0,0],[0,0,0]]
+        self.method = "DFS"
         #moving
         self.arr_squares = [[], [], []]
         self.arr_numbers = [[], [], []]
@@ -213,6 +214,7 @@ class GUI:
             """
 
         def search(s):
+            self.method = s
             if self.isInput:
                 isValid = True
                 for i in range(3):
@@ -239,8 +241,7 @@ class GUI:
             else:
                 damage()
                 self.tab2()
-            print(s)
-            print(self.arr)
+
 
         BFS = Button(self.root, text='BFS', bg=self.background_color, command=lambda:[search("BFS")], fg=self.foreground_color, height=2, width=8,font=("", 15), relief=RAISED)
         BFS.place(x=100, y=375)
@@ -264,9 +265,9 @@ class GUI:
 
 
     def tab2(self):
-        self.moves_arr = self.controller.getpath(self.arr)
-        self.counter = 1
+
         self.drawcanvas()
+
 
 
         def back():
@@ -400,9 +401,16 @@ class GUI:
         home = Button(self.root, text='Home',command=gotohome, bg=self.background_color, fg=self.foreground_color,
                       height=2, width=8, font=("", 18), relief=RAISED)
         self.changeOnHover(PRev)
+        self.changeOnHover(home)
         self.changeOnHover(Auto)
         self.changeOnHover(Next)
         self.changeOnHover(backc)
+
+
+        self.controller.set_puzzle_for_agent(self.arr, 3, 3)
+        self.controller.search(self.method)
+        self.moves_arr = self.controller.getpath()
+        self.counter = 1
 
 
 

@@ -17,7 +17,11 @@ class Answer(object):
         self.fringe_size = fringe_size
         self.max_fsize = max_fsize
         self.found = found
-        self.sol_cost = puzzle_sol.get_depth()
+        if(found):
+            self.sol_cost = puzzle_sol.get_depth()
+
+    def setTime(self,time):
+        self.time = time
 
     def add_path_step(self, steps):
         self.steps = steps

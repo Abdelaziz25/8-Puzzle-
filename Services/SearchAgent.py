@@ -1,4 +1,6 @@
+import time
 import sys
+
 sys.path.append("..")
 
 from Model.PuzzleBoard import PuzzleBoard
@@ -15,7 +17,8 @@ class SearchAgent(object):
     __answer: Answer
 
     def set_initial_puzzle(self, initial_state, length=3, width=3):
-        self.__initial_puzzle = PuzzleBoard(initial_state, None, "", length, width)
+        self.__initial_puzzle = PuzzleBoard(initial_state, None, "", 0, length, width)
+        print(f"SA/t {self.__initial_puzzle.get_depth()}")
 
     def set_board_services(self, length, width):
         self.__board_services = BoardServices()
@@ -43,6 +46,9 @@ class SearchAgent(object):
 
     def solvePuzzle(self):
         self.__answer = self.__search_strategy.search(self.__initial_puzzle, self.__board_services)
+        time = 1
+        self.__answer.setTime(time)
+
         # print()
         self.__add_path_ans()
         return self.__answer
