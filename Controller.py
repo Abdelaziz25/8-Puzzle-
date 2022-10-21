@@ -69,6 +69,8 @@ class Controller:
             if len(arr[i]) != 3:
                 return False
             for j in range(3):
+                if arr[i][j]<0 or arr[i][j]>8:
+                    return False
                 if dp[arr[i][j]] != 0:
                     return False
                 dp[arr[i][j]] = 1
