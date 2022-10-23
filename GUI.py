@@ -51,7 +51,6 @@ class GUI:
     def home(self):
         def random():
             self.arr = self.controller.createRandom()
-            print(self.arr)
             toplabel.destroy()
             description.destroy()
             random.destroy()
@@ -60,7 +59,6 @@ class GUI:
             self.tab1()
 
         def input():
-            print("i")
             toplabel.destroy()
             description.destroy()
             random.destroy()
@@ -96,7 +94,6 @@ class GUI:
             x1 = 0
             for j in range(0, 3):
                 if (self.arr[i][j] != 0):
-                    # EA047E
                     x = pow(2, j) * 50 + x1 + self.square_stroke / 2
                     if (self.arr[i][j] % 2 == 0):
                         self.arr_squares[i].append(self.mycanvas.create_rectangle(x - (self.square_length / 2) + (j * self.square_stroke),
@@ -145,7 +142,6 @@ class GUI:
             x1 = 0
 
             def callback(temp):
-                print(temp)
                 i,j = search_for_index(temp)
                 if temp.isnumeric():
                     temp2 = int(temp)
@@ -249,7 +245,6 @@ class GUI:
 
                 if isValid:
                     isValid = self.controller.check(self.arr)
-                    print(isValid)
                     if isValid:
                       damage()
                       self.tab2()
@@ -375,7 +370,6 @@ class GUI:
             Next.place_forget()
             home.place(x=400,y=375)
             buildTable()
-            print("end")
 
         def notSolved():
             PRev.place_forget()
@@ -391,7 +385,6 @@ class GUI:
             Next.place(x=700, y=375)
             home.place_forget()
             self.mycanvas2.destroy()
-            print("returned")
 
         def disable():
             Auto["state"] = DISABLED
@@ -406,7 +399,6 @@ class GUI:
             backc["state"] = NORMAL
 
         def move(  x_old, y_old ,x_new, y_new):
-            print(  x_old, y_old,"to" ,x_new, y_new,)
             x_difference = (y_new - y_old )
             y_difference = (x_new - x_old)
             for i in range(self.moving_period):

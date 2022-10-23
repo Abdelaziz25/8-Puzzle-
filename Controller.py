@@ -40,14 +40,6 @@ class Controller:
             self.__agent_solve(AstarEuclidStrategy())
 
 
-        print("is found ", self.__ans.found)
-        if self.__ans.found:
-            print(self.__ans.steps)
-            print("cost ",self.__ans.sol_cost)
-            print("nodes expanded ", self.__ans.no_nodes_exp)
-            print("max depth ",self.__ans.max_depth)
-
-
     def createRandom(self):
         arr = [0,1,2,3,4,5,6,7,8]
         self.startstate = []
@@ -93,7 +85,6 @@ class Controller:
                     break
             if len(path)!= 0:
                 break
-        print(izero, " ", jzero)
 
         for step in steps:
             if step == 'Up':
@@ -104,10 +95,7 @@ class Controller:
                 jzero += 1
             elif step == 'Left':
                 jzero -= 1
-            print(izero, " ", jzero)
 
-            if izero<0 or izero>2 or jzero<0 or jzero>2 :
-                print("EEERRRRROOOOOOOOORRRRRRRR")
             else:
                 path.append((izero, jzero))
 
@@ -125,31 +113,3 @@ class Controller:
         dec.append(["Running time", str(round(self.__ans.time))+ " ms"])
         return dec
 
-    #Method that solves the problem
-
-
-""""
-sa = SearchAgent()
-sa.set_board_services(3, 3)
-sa.set_search_strategy(BFSStrategy())
-# sa.set_initial_puzzle([1,2,5,3,4,0,6,7,8])
-sa.set_initial_puzzle([1,4,2,6,5,8,7,3,0])
-# sa.set_initial_puzzle([3,1,2, 0, 4,5,6,7,8])
-# print([x for x in sa.solvePuzzle().steps])
-print(sa.solvePuzzle().steps)
-print(sa.solvePuzzle().puzzle_sol.get_depth())
-print(sa.solvePuzzle().found)
-
-
-
-# pb = PuzzleBoard([1,2,3,4,8,5,6,7,0])
-# ps = BoardServices()
-# ps.set_board_dim(3, 3)
-# print(pb.get_state().index(0))
-# tpp = ps.get_children(pb)
-# for xxx in tpp:
-#     print(xxx.get_state())
-# for i, x in enumerate([11,22,33]):
-#     print(f"i {i} x {x}")
-
-"""

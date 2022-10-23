@@ -25,7 +25,6 @@ class BoardServices(object):
 
     def is_goal(self, state: List[int]):
         if self.__length * self.__width == len(state):
-            # print(self.__length + self.__width)
             for i, x in enumerate(state):
                 if x != self.__goal_state[i]:
                     return False
@@ -34,7 +33,6 @@ class BoardServices(object):
 
     def manhattan_h(self, state: List[int]):
         if self.__length * self.__width == len(state):
-            # print("IIIIII")
             total = 0
             for i, x in enumerate(state):
                 total += abs(i % self.__length - x % self.__length) + abs(i // self.__width - x // self.__width)

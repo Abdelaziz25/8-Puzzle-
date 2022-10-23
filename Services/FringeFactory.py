@@ -13,9 +13,7 @@ class FringeFactory:
         elif strategy == "bfs":
             return BFSFringe()
         elif strategy == "a*manhattan":
-            print(strategy)
             return ManhattanFringe()
         elif strategy == "a*euclidean":
-            print(strategy)
             return EuclideanFringe()
         return None

@@ -18,7 +18,6 @@ class SearchAgent(object):
 
     def set_initial_puzzle(self, initial_state, length=3, width=3):
         self.__initial_puzzle = PuzzleBoard(initial_state, None, "", 0, length, width)
-        print(f"SA/t {self.__initial_puzzle.get_depth()}")
 
     def set_board_services(self, length, width):
         self.__board_services = BoardServices()
@@ -33,8 +32,6 @@ class SearchAgent(object):
             steps = [cur_board.get_prev_step()]
             states = [cur_board.get_state()]
             while cur_board.get_parent() is not None:
-                # print("agent")
-                # print(cur_board.get_prev_step)
                 steps.append(cur_board.get_parent().get_prev_step())
                 states.append(cur_board.get_parent().get_state())
                 cur_board = cur_board.get_parent()
@@ -50,7 +47,6 @@ class SearchAgent(object):
         time = (datetime.datetime.now().timestamp() - prev)*1000.0
         self.__answer.setTime(time)
 
-        # print()
         self.__add_path_ans()
         return self.__answer
 
