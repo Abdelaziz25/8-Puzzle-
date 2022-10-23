@@ -76,7 +76,7 @@ class GUI:
 
         random = Button(self.root, text='Random', command=random, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         random.place(x=250, y=300)
-        input = Button(self.root, text='input', command=input, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        input = Button(self.root, text='Input', command=input, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         input.place(x=550, y=300)
 
         self.changeOnHover(random)
@@ -286,6 +286,8 @@ class GUI:
         self.drawcanvas()
         self.isAutoRunning = False
 
+        self.isTablebuilt = False
+
 
 
         def back():
@@ -328,6 +330,9 @@ class GUI:
 
 
         def buildTable():
+            if self.isTablebuilt:
+                return
+
             states = [[]]
             states = self.controller.getstates()
             self.mycanvas2 = Canvas(self.root, width=250,
@@ -364,6 +369,8 @@ class GUI:
                                            font=("", 18))
                 self.mycanvas2.create_text(x3, y2, text=states[i][1], fill=self.foreground_color, font=("", 22))
                 y2 += 100
+
+            self.isTablebuilt = True
 
         def end():
             Auto.place_forget()
