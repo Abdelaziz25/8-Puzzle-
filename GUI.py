@@ -78,7 +78,7 @@ class GUI:
 
         random = Button(self.root, text='Random', command=random, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         random.place(x=250, y=300)
-        input = Button(self.root, text='input', command=input, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
+        input = Button(self.root, text='Input', command=input, bg=self.background_color, fg=self.foreground_color, height=2, width=8, font=("", 15), relief=RAISED)
         input.place(x=550, y=300)
 
         self.changeOnHover(random)
