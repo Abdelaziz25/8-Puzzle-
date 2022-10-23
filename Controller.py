@@ -98,6 +98,8 @@ class Controller:
             elif step == 'Left':
                 jzero -= 1
 
+            if izero < 0 or izero > 2 or jzero < 0 or jzero > 2:
+                print("EEERRRRROOOOOOOOORRRRRRRR")
             else:
                 path.append((izero, jzero))
 

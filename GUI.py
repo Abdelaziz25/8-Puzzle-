@@ -330,6 +330,10 @@ class GUI:
 
 
         def buildTable():
+            def deleteTable():
+                self.mycanvas2.destroy()
+                self.isTablebuilt = False
+
             if self.isTablebuilt:
                 return
 
@@ -339,7 +343,7 @@ class GUI:
                                     height=400,
                                     bd=0, highlightthickness=0, bg=self.background_color)
             self.mycanvas2.place(x=625, y=50)
-            x = Button(self.mycanvas2, text='x', command=lambda:self.mycanvas2.destroy() , bg="black",
+            x = Button(self.mycanvas2, text='x', command= deleteTable , bg="black",
                            fg="red")
             x.place(x=223)
 
@@ -392,6 +396,9 @@ class GUI:
             Next.place(x=700, y=375)
             home.place_forget()
             self.mycanvas2.destroy()
+            self.isTablebuilt = False
+
+
 
         def disable():
             Auto["state"] = DISABLED
