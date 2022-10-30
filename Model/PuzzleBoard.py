@@ -32,15 +32,23 @@ class PuzzleBoard:
         return new_state
 
     def __up(self):
-        if self.__zero_index > self.__length:
+        # print("in__up ", self.__zero_index)
+        if self.__zero_index >= self.__length:
+            # print("up")
             return PuzzleBoard(self.__swap(self.__zero_index, self.__zero_index - self.__length),
                                self, 'Up', self.__depth + 1, self.__length, self.__width)
+
         return None
 
     def __down(self):
+        # print("in__down ", self.__zero_index)
+        # print()
         if self.__zero_index < self.__length * (self.__width - 1):
+            # print("down")
             return PuzzleBoard(self.__swap(self.__zero_index, self.__zero_index + self.__length),
                                self, 'Down', self.__depth + 1, self.__length, self.__width)
+            # print("dddown ", xxx.get_state())
+
         return None
 
     def __left(self):

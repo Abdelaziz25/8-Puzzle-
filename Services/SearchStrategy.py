@@ -33,11 +33,15 @@ class SearchStrategy(ABC):
                 found = True
                 ans_board = cur_board
                 break
-            for child in cur_board.get_children():
+            print("pp\t", cur_board.get_state())
+            lss = cur_board.get_children()
+            # print(lss)
+            for child in lss:
                 if not tuple(child.get_state()) in explored_states:
                     fringe.add_node(child, services)
                     explored_states.add(tuple(child.get_state()))
                     max_depth = max(max_depth, child.get_depth())
+                    print("\t",child.get_state())
         ans.add_answer_attr(ans_board, found, max_depth, nodes_expanded, fringe.get_size(), fringe.get_max_size())
         return ans
 
