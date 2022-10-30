@@ -17,7 +17,7 @@ foreground_2nd_color= "#EA047E"
 empty_color="#312e2b"
 square_stroke=4
 canvas_width=700
-canvas_height=600
+canvas_height=700
 velocity = 0.05
 square_length=100
 moving_period=int((square_length+square_stroke)/velocity)
@@ -40,7 +40,7 @@ def tab1():
   mylabel2.place(x=170, y=80)
 
   def tab2():
-      mycanvas = Canvas(root, width=canvas_width+(square_stroke*3), height=canvas_height+(square_stroke*3),bd=0,highlightthickness=0, bg=empty_color)
+      mycanvas = Canvas(root, width=canvas_width+(square_stroke*3), height=canvas_height+(square_stroke*3),bd=0,highlightthickness=0, bg="black")
       mycanvas.pack(pady=20)
       global counter
 
@@ -59,8 +59,8 @@ def tab1():
           global color
           x = i * (2 + square_length)
           starx = i * (2 + square_length) + (20)
-          y = (5-col[i]) * (2+square_length)
-          stary = (5-col[i]) * (2+square_length) +(17)
+          y = (5-col[i]) * (2+square_length) +100
+          stary = (5-col[i]) * (2+square_length) +(17) +100
           if(color):
               mycanvas.create_oval(x + 1, y + 1, x + (square_length) - 2, y + (square_length) - 2, fill=red,width="0")
               mycanvas.create_oval(x + circle_scale, y + circle_scale, x + (square_length) - circle_scale - 1,y + (square_length) - circle_scale - 1, fill="#80222d", outline="black",width="0", )
@@ -80,7 +80,35 @@ def tab1():
           #hntcheck hina
           check(5 - col[i], i)
           color = not color
+          hover_draw(i)
           col[i]+=1
+          #print(board)
+
+      def hover_draw (i):
+          #print (i , j, 5-col[i] )
+          global color
+          starx = i * (2 + square_length) + (20)
+          y = 0
+          stary = (17)
+          for j in range(0,7):
+              x = j * (2 + square_length)
+              mycanvas.create_oval(x + 1, y + 1, x + (square_length) - 2, y + (square_length) - 2, fill="black",width="0")
+          x = i * (2 + square_length)
+          if(color):
+              mycanvas.create_oval(x + 1, y + 1, x + (square_length) - 2, y + (square_length) - 2, fill=red,width="0")
+              mycanvas.create_oval(x + circle_scale, y + circle_scale, x + (square_length) - circle_scale - 1,y + (square_length) - circle_scale - 1, fill="#80222d", outline="black",width="0", )
+              mycanvas.create_polygon(starx + (25 * scale), stary + (2.5 * scale), starx + (10 * scale),
+                                      stary + (49.5 * scale), starx + (47.5 * scale), stary + (19.5 * scale),
+                                      starx + (2.5 * scale), stary + (19.5 * scale), starx + (40 * scale),
+                                      stary + (49.5 * scale), fill="", outline=red, width="2")
+          else:
+              mycanvas.create_oval(x + 1, y + 1, x + (square_length) - 2, y + (square_length) - 2, fill="#e3c559",width="0")
+              mycanvas.create_oval(x + circle_scale, y + circle_scale, x + (square_length) - circle_scale - 1,y + (square_length) - circle_scale - 1, fill="#c1bc2f", outline="black",width="0", )
+              mycanvas.create_polygon(starx + (25 * scale), stary + (2.5 * scale), starx + (10 * scale),
+                                      stary + (49.5 * scale), starx + (47.5 * scale), stary + (19.5 * scale),
+                                      starx + (2.5 * scale), stary + (19.5 * scale), starx + (40 * scale),
+                                      stary + (49.5 * scale), fill="", outline="#e3c559", width="2")
+          #hntcheck hina
           #print(board)
 
       def check(x,y):
@@ -105,13 +133,14 @@ def tab1():
                       print("kisbnaaaaaa diagonal tale3 ymin")
 
       for i in range (0,6):
-          y = i * (2+square_length)
+          y = i * (2+square_length)+100
           for j in range(0,7):
               x=j * (2+square_length)
               mycanvas.create_rectangle(x , y , x + (square_length) , y +(square_length) , outline=foreground_color, fill=foreground_color ,width = "2")
               arr_circles[i].append(mycanvas.create_oval(x +1 , y +1 , x + (square_length) -2, y +(square_length) -2 ,fill="black" ,width = "0"))
               mycanvas.tag_bind(arr_circles[i][j],"<Button-1>",lambda x: draw(x.x//100,x.y//100))
-
+              mycanvas.tag_bind(arr_circles[i][j],"<Enter>",lambda x:hover_draw (x.x//100))
+      
       button1.destroy()
       button2.destroy()
       button3.destroy()
